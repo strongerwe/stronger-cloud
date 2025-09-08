@@ -9,7 +9,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>stronger-framework-starters</module>
-
+        <module>stronger-gateway</module>
+        <module>stronger-mybatis-generator</module>
     </modules>
 
     <properties>
@@ -25,6 +26,11 @@
         <spring-ai.version>1.0.1</spring-ai.version>
         <!-- Spring AI Alibaba -->
         <spring-ai-alibaba.version>1.0.0.3</spring-ai-alibaba.version>
+        <mysql.version>8.0.33</mysql.version>
+        <mybatis.version>3.5.14</mybatis.version>
+        <hutool.core.version>5.8.38</hutool.core.version>
+        <commons.lang3.version>3.18.0</commons.lang3.version>
+        <fastjson.version>2.0.33</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -73,6 +79,72 @@
                 <scope>import</scope>
             </dependency>
             <!-- Spring AI Alibaba End -->
+            <!-- mysql-connector-java -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- mybatis plus boot3 依赖 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.core.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- stronger-starts -->
+            <dependency>
+                <groupId>com.stronger</groupId>
+                <artifactId>stronger-framework-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.stronger</groupId>
+                <artifactId>stronger-framework-encrypt-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.stronger</groupId>
+                <artifactId>stronger-framework-log-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.stronger</groupId>
+                <artifactId>stronger-framework-mybatis-plus-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.stronger</groupId>
+                <artifactId>stronger-framework-redis-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

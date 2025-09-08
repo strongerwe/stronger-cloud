@@ -10,17 +10,29 @@
     </parent>
     <artifactId>stronger-framework-starters</artifactId>
     <packaging>pom</packaging>
+    <description>自定义starters，微服务框架自定义脚手架</description>
 
     <modules>
         <module>stronger-framework-commons</module>
+        <module>stronger-framework-log-starter</module>
+        <module>stronger-framework-redis-starter</module>
+        <module>stronger-framework-mybatis-plus-starter</module>
+        <module>stronger-framework-encrypt-starter</module>
     </modules>
-
-    <description>自定义starters，微服务框架自定义脚手架</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <!-- starter 配置后自定义properties支持说明 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
 </project>
