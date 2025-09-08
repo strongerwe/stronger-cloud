@@ -1,0 +1,45 @@
+server:
+  port: 5701
+
+#password: ER4yyUOsXvCWoPIRWNfpIbwu4Uymy5RH
+
+spring:
+  profiles:
+    include:
+      - nacos
+  main:
+    allow-bean-definition-overriding: true
+    banner-mode: off
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://localhost:3306/ai?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+    type: com.zaxxer.hikari.HikariDataSource
+    password: Cola@@2024.
+  #    password: ENC(${password})
+  application:
+    name: stronger-gateway
+
+
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath*:com/stronger/gateway/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+  #    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    db-config:
+      logic-delete-value: true
+      logic-not-delete-value: false
+      logic-delete-field: isDeleted
+    banner: false
+#jasypt:
+#  encryptor:
+#    property:
+#      prefix: ENC(
+#      suffix: )
+#    password: stronger@jasypt
+#    algorithm: PBEWithMD5AndDES
+#    bootstrap: true

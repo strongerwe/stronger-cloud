@@ -1,0 +1,31 @@
+nacos:
+  server-addr: 127.0.0.1:8848
+  username: local
+  password: local
+  namespace: local
+  group: platform-ai
+
+spring:
+  config:
+    import:
+      - nacos:global
+      - nacos:${spring.application.name}
+      - nacos:${spring.application.name}-dev
+      - nacos:${spring.application.name}-debug
+  cloud:
+    nacos:
+      username: ${nacos.username}
+      password: ${nacos.password}
+      server-addr: ${nacos.server-addr}
+      discovery:
+        namespace: ${nacos.namespace}
+        enabled: true
+        register-enabled: true
+        group: ${nacos.group}
+      config:
+        file-extension: yaml
+        group: ${nacos.group}
+        namespace: ${nacos.namespace}
+        refresh-enabled: true
+        max-retry: 3
+        enabled: true

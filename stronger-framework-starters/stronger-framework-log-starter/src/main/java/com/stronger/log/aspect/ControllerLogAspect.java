@@ -35,7 +35,12 @@ import java.lang.reflect.Method;
 @Order(-201)
 @Configuration("ControllerLogAutoConfigurer")
 @EnableConfigurationProperties({ControllerLogProperties.class})
-@ConditionalOnProperty(prefix = "stronger.framework.log", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(
+        prefix = "stronger.framework.log",
+        name = "enabled",
+        havingValue = "true",
+        matchIfMissing = true
+)
 public class ControllerLogAspect {
 
     private final ControllerLogProperties properties;

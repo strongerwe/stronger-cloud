@@ -1,7 +1,6 @@
-package com.stronger.log.execption;
+package com.stronger.commons.exception;
 
 import com.stronger.commons.RestResult;
-import com.stronger.commons.exception.BizRuntimeException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
