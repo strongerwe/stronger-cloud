@@ -1,1 +1,2 @@
 com.stronger.redis.redisson.RedissonLockAspect
+com.stronger.redis.RedisConfiguration

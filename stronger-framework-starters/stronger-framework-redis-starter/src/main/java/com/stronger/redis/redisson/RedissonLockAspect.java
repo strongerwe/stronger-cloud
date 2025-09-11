@@ -24,7 +24,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 /**
  * @author stronger
@@ -99,8 +98,8 @@ public class RedissonLockAspect {
             } catch (Exception e) {
                 return StrUtil.EMPTY;
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("[RedissonLockAspect] 解析参数异常|{}", e.getMessage());
         }
         return null;
     }
