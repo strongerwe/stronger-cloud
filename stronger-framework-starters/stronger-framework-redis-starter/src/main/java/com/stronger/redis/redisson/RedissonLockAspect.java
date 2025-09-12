@@ -31,7 +31,7 @@ import java.lang.reflect.Method;
  * @class FastJsonRedisSerializer.class
  * @department Platform R&D
  * @date 2025/9/9
- * @desc do what?
+ * @desc 分布式锁AOP实现类
  */
 @Slf4j
 @Aspect
@@ -55,7 +55,10 @@ public class RedissonLockAspect {
 
     @Around("@annotation(redissonLock)")
     public Object cacheDataAround(ProceedingJoinPoint pjp, RedissonLock redissonLock) throws Throwable {
-        String lockKey = NewBeeParserUtils.parse(redissonLock.keyTemplate(), parse(getMethod(pjp), pjp.getArgs(), redissonLock.suffix()));
+        String lockKey = NewBeeParserUtils.parse(redissonLock.keyTemplate(), parse(
+                getMethod(pjp),
+                pjp.getArgs(),
+                redissonLock.suffix()));
         RLock lock = redissonClient.getLock(lockKey);
         try {
             boolean tryLock = lock.tryLock(redissonLock.lockTime(), redissonLock.unit());

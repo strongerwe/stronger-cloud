@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @desc do what?
  */
 @Data
-@ConfigurationProperties("stronger.framework.redission")
+@ConfigurationProperties("stronger.framework.redisson")
 public class RedissonLockProperties {
     private boolean enabled = true;
 }
