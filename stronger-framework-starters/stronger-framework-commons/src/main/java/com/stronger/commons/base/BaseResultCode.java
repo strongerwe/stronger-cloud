@@ -1,8 +1,5 @@
 package com.stronger.commons.base;
 
-
-import lombok.Getter;
-
 /**
  * @author stronger
  * @version release-1.0.0
