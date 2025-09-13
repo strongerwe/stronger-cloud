@@ -26,3 +26,10 @@ replay_pid*
 /stronger-framework-starters/stronger-framework-commons/target/
 /stronger-gateway/target/
 /.idea/
+/stronger-framework-starters/stronger-framework-redis-starter/target/
+/stronger-platform/platform-start/target/
+/stronger-platform/platform-infrastructure/target/
+/stronger-platform/platform-domain/target/
+/stronger-platform/platform-client/target/
+/stronger-platform/platform-app/target/
+/stronger-platform/platform-adapter/target/
