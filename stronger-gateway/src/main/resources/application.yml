@@ -19,16 +19,22 @@ spring:
   #    password: ENC(${password})
   application:
     name: stronger-gateway
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 3
+      password: Cola@2024
 
 
 # mybatis-plus
 mybatis-plus:
   mapper-locations: classpath*:com/stronger/gateway/mapper/*.xml
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
     map-underscore-to-camel-case: true
-  #    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
   global-config:
     db-config:
       logic-delete-value: true

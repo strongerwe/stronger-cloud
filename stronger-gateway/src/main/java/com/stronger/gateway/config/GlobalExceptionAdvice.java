@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @class GlobalExceptionAdvice.class
  * @department Platform R&D
  * @date 2025/9/8
- * @desc do what?
+ * @desc 全局异常过滤器
  */
 @RestControllerAdvice
 public class GlobalExceptionAdvice extends BaseGlobalExceptionAdvice {

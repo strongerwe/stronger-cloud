@@ -1,7 +1,5 @@
 package com.stronger.gateway;
 
-
-//import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -19,8 +17,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  */
 @Slf4j
 @SpringBootApplication
-@MapperScan("com.stronger.gateway.mapper")
-//@EnableEncryptableProperties
+@MapperScan("com.stronger.gateway.domain.*.mapper")
 public class StrongerGatewayApplication {
 
     public static void main(String[] args) {
