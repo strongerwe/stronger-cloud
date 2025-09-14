@@ -32,8 +32,8 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 @Aspect
-@Order(-201)
-@Configuration("ControllerLogAutoConfigurer")
+@Order(-100)
+@Configuration("ControllerLogAspect")
 @EnableConfigurationProperties({ControllerLogProperties.class})
 @ConditionalOnProperty(
         prefix = "stronger.framework.log",
