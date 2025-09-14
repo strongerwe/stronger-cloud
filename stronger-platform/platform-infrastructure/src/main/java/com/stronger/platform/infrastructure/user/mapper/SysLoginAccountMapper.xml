@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stronger.platform.infrastructure.user.mapper.SysLoginAccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stronger.platform.domain.user.entity.SysLoginAccount">
+        <id column="increment_id" property="incrementId" />
+        <result column="user_id" property="userId" />
+        <result column="account_name" property="accountName" />
+        <result column="account_password" property="accountPassword" />
+        <result column="is_default_password" property="isDefaultPassword" />
+        <result column="password_setting_time" property="passwordSettingTime" />
+        <result column="type" property="type" />
+        <result column="is_enable" property="isEnable" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="ext3" property="ext3" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+</mapper>
