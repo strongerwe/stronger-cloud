@@ -2,7 +2,6 @@ package com.stronger.encrypt.pwd;
 
 import com.stronger.commons.utils.MD5Utils;
 import com.stronger.commons.utils.StringUtils;
-import com.stronger.commons.utils.UuidUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
@@ -94,16 +93,4 @@ public class PwdEncrypt {
             default -> pwd;
         };
     }
-
-    public static void main(String[] args) {
-        String encrypt = encrypt(MD5Utils.encrypt32("123456"), EncryptType.USER_PASSWORD);
-        System.out.println(encrypt);
-
-        String pwd ="$2y$10$F6.9xilYiEHuAdOIPdeQdO7a6e5FRFqZf47H/WlS8x1YwBjbDoFvK";
-        System.out.println(matches(MD5Utils.encrypt32("123456"), pwd, EncryptType.USER_PASSWORD));
-
-
-        System.out.println(UuidUtils.fastSimpleUuid());
-    }
-
 }

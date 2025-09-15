@@ -157,6 +157,12 @@
                 <artifactId>stronger-framework-redis-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.stronger</groupId>
+                <artifactId>stronger-framework-admin-request-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

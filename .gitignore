@@ -33,3 +33,4 @@ replay_pid*
 /stronger-platform/platform-client/target/
 /stronger-platform/platform-app/target/
 /stronger-platform/platform-adapter/target/
+/stronger-framework-starters/stronger-framework-admin-request-starter/target/

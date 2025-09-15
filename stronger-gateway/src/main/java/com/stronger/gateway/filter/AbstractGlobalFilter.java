@@ -19,6 +19,9 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author stronger
  * @version release-1.0.0
@@ -79,7 +82,7 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, Ordered {
                         .header(BaseRequestAttributeEnums.FRAME_CLIENT_ID.getHeaderName(),
                                 baseRequest.getFrameClientId())
                         .header(BaseRequestAttributeEnums.FRAME_USER_NAME.getHeaderName(),
-                                baseRequest.getFrameUserName())
+                                URLEncoder.encode(baseRequest.getFrameUserName(), StandardCharsets.UTF_8))
                         .header(BaseRequestAttributeEnums.FRAME_USER_ID.getHeaderName(),
                                 baseRequest.getFrameUserId())
                         .header(BaseRequestAttributeEnums.FRAME_USER_VERSION.getHeaderName(),

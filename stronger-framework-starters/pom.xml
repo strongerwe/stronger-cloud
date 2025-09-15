@@ -18,6 +18,7 @@
         <module>stronger-framework-redis-starter</module>
         <module>stronger-framework-mybatis-plus-starter</module>
         <module>stronger-framework-encrypt-starter</module>
+        <module>stronger-framework-admin-request-starter</module>
     </modules>
 
     <properties>
