@@ -2,12 +2,14 @@ package com.stronger.platform.adapter.admin.frame;
 
 
 import com.stronger.commons.RestResult;
+import com.stronger.commons.base.BaseRequest;
 import com.stronger.log.annotation.ControllerLog;
 import com.stronger.platform.app.admin.frame.FrameLoginAdminService;
 import com.stronger.platform.client.admin.frame.IFrameLoginAdminController;
 import com.stronger.platform.client.admin.frame.request.LoginRequest;
 import com.stronger.platform.client.admin.frame.request.LoginVerificationCodeRequest;
 import com.stronger.platform.client.admin.frame.response.LoginResponse;
+import com.stronger.platform.client.admin.frame.response.LoginUserInfoResponse;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +40,11 @@ public class FrameLoginAdminController implements IFrameLoginAdminController {
     public RestResult<LoginResponse> login(HttpServletRequest httpServletRequest,
                                            LoginRequest request) {
         return frameLoginAdminService.login(request);
+    }
+
+    @Override
+    @ControllerLog(title = "当前登录用户信息")
+    public RestResult<LoginUserInfoResponse> loginUserInfo(BaseRequest request) {
+        return frameLoginAdminService.loginUserInfo(request);
     }
 }

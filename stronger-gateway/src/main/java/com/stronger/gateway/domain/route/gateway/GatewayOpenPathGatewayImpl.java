@@ -1,5 +1,7 @@
 package com.stronger.gateway.domain.route.gateway;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stronger.gateway.domain.route.entity.GatewayOpenPath;
 import com.stronger.gateway.domain.route.mapper.GatewayOpenPathMapper;
@@ -20,6 +22,6 @@ public class GatewayOpenPathGatewayImpl extends ServiceImpl<GatewayOpenPathMappe
 
     @Override
     public List<GatewayOpenPath> selectEnabledOpenPaths() {
-        return this.list(lambdaQuery().eq(GatewayOpenPath::getIsEnable, Boolean.TRUE));
+        return this.list(new QueryWrapper<GatewayOpenPath>().lambda().eq(GatewayOpenPath::getIsEnable, Boolean.TRUE));
     }
 }

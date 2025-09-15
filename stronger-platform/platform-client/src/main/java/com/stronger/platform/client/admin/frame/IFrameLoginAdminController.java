@@ -2,11 +2,14 @@ package com.stronger.platform.client.admin.frame;
 
 
 import com.stronger.commons.RestResult;
+import com.stronger.commons.base.BaseRequest;
 import com.stronger.platform.client.admin.frame.request.LoginRequest;
 import com.stronger.platform.client.admin.frame.request.LoginVerificationCodeRequest;
 import com.stronger.platform.client.admin.frame.response.LoginResponse;
+import com.stronger.platform.client.admin.frame.response.LoginUserInfoResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,8 +41,16 @@ public interface IFrameLoginAdminController {
      * @param request            request
      * @return {@link RestResult }<{@link LoginResponse }>
      */
-    @PostMapping("/platform/frame/admin/login.do")
+    @PostMapping("/platform/frame/admin/login.open")
     RestResult<LoginResponse> login(HttpServletRequest httpServletRequest,
                                     @RequestBody @Validated LoginRequest request);
 
+    /**
+     * 获取登录用户信息
+     *
+     * @param request request
+     * @return {@link RestResult }<{@link LoginUserInfoResponse }>
+     */
+    @GetMapping("/platform/frame/admin/login-user-info")
+    RestResult<LoginUserInfoResponse> loginUserInfo(BaseRequest request);
 }

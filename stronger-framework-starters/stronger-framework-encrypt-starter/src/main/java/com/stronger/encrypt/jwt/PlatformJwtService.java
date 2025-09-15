@@ -126,7 +126,7 @@ public class PlatformJwtService {
             return null;
         }
         /* 校验token类型 */
-        if (JwtTypeEnums.APP_TOKEN.getType().equals(decodedJwt.getSubject())) {
+        if (!JwtTypeEnums.APP_TOKEN.getType().equals(decodedJwt.getSubject())) {
             return null;
         }
         return analysis(decodedJwt);
@@ -143,8 +143,8 @@ public class PlatformJwtService {
                 .getClaim(BaseRequestAttributeEnums.FRAME_USER_ID.getJwtKey()).asString();
         String frameUserName = decode(decodedJwt
                 .getClaim(BaseRequestAttributeEnums.FRAME_USER_NAME.getJwtKey()).asString());
-        String frameUserVersion = decodedJwt
-                .getClaim(BaseRequestAttributeEnums.FRAME_USER_VERSION.getJwtKey()).asString();
+        Integer frameUserVersion = decodedJwt
+                .getClaim(BaseRequestAttributeEnums.FRAME_USER_VERSION.getJwtKey()).asInt();
         String frameOrgCode = decodedJwt
                 .getClaim(BaseRequestAttributeEnums.FRAME_ORG_CODE.getJwtKey()).asString();
         String frameClientId = decodedJwt
@@ -152,7 +152,7 @@ public class PlatformJwtService {
         BaseRequest request = new BaseRequest();
         request.setFrameUserId(frameUserId);
         request.setFrameUserName(frameUserName);
-        request.setFrameUserVersion(Integer.valueOf(frameUserVersion));
+        request.setFrameUserVersion(frameUserVersion);
         request.setFrameOrgCode(frameOrgCode);
         request.setFrameClientId(frameClientId);
         return request;

@@ -1,5 +1,5 @@
 server:
-  port: 5701
+  port: 5700
 
 #password: ER4yyUOsXvCWoPIRWNfpIbwu4Uymy5RH
 
@@ -13,7 +13,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    url: jdbc:mysql://localhost:3306/ai?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/platform?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2B8
     type: com.zaxxer.hikari.HikariDataSource
     password: Cola@@2024.
   #    password: ENC(${password})

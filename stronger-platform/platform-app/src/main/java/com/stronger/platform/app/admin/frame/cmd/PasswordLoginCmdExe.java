@@ -2,11 +2,29 @@ package com.stronger.platform.app.admin.frame.cmd;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.stronger.commons.AssertCheck;
+import com.stronger.commons.base.BaseRequest;
+import com.stronger.commons.base.BaseResultCode;
+import com.stronger.commons.exception.BizRuntimeException;
 import com.stronger.commons.framework.AbstractCmdExe;
+import com.stronger.commons.utils.MD5Utils;
+import com.stronger.commons.utils.UuidUtils;
+import com.stronger.encrypt.jwt.JwtTypeEnums;
+import com.stronger.encrypt.jwt.PlatformJwtService;
+import com.stronger.encrypt.pwd.EncryptType;
+import com.stronger.encrypt.pwd.PwdEncrypt;
 import com.stronger.platform.client.admin.frame.request.LoginRequest;
 import com.stronger.platform.client.admin.frame.response.LoginResponse;
+import com.stronger.platform.client.constants.PlatformApiResultCode;
+import com.stronger.platform.domain.user.entity.SysLoginAccount;
+import com.stronger.platform.domain.user.entity.SysUserInfo;
+import com.stronger.platform.domain.user.gateway.SysLoginAccountGateway;
+import com.stronger.platform.domain.user.gateway.SysUserInfoGateway;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
 
 /**
  * @author stronger
@@ -20,17 +38,60 @@ import org.springframework.stereotype.Component;
 @Component(value = "PasswordLoginCmdExe")
 public class PasswordLoginCmdExe extends AbstractCmdExe<LoginRequest, LoginResponse> {
 
+    @Resource
+    private SysLoginAccountGateway sysLoginAccountGateway;
+
+    @Resource
+    private SysUserInfoGateway sysUserInfoGateway;
+
+    @Resource
+    private PlatformJwtService platformJwtService;
+
+    /**
+     * 执行账号密码登录
+     *
+     * @param request request
+     * @return {@link LoginResponse }
+     */
     @Override
     protected LoginResponse cmdExecute(LoginRequest request) {
+        // 1. 根据用户名查询账号信息
+        SysLoginAccount account = sysLoginAccountGateway.findUseLogin(request.getModel().getUsername());
+        AssertCheck.notNull(account, PlatformApiResultCode.USER_NOT_EXIST);
+        // 登录密码需要MD5加密  TODO 密码登录为了安全还需要结合前端进行加密操作
+        String passwordCheck = MD5Utils.encrypt32(request.getModel().getPassword());
+        // 2. 验证登录密码（单向加密验证）
+        if (!PwdEncrypt.matches(passwordCheck, account.getAccountPassword(), EncryptType.USER_PASSWORD)) {
+            throw new BizRuntimeException(PlatformApiResultCode.USER_ACCOUNT_PASSWORD);
+        }
+        // 3. 验证通过，查询用户信息
+        SysUserInfo userInfo = sysUserInfoGateway.getByUserId(account.getUserId());
+        AssertCheck.notNull(userInfo, PlatformApiResultCode.USER_NOT_EXIST);
+        BaseRequest baseRequest = new BaseRequest();
+        baseRequest.setFrameUserId(account.getUserId());
+        baseRequest.setFrameUserName(userInfo.getRealName());
 
-        LoginResponse passwordLoginCmdExe = new LoginResponse("PasswordLoginCmdExe", 2000L);
-        passwordLoginCmdExe.setCmdExe("PasswordLoginCmdExe");
-        return passwordLoginCmdExe;
+        baseRequest.setFrameUserVersion(userInfo.getUserVersion());
+        // TODO 对接客户端ID&机构Code
+        baseRequest.setFrameClientId("client-id");
+        baseRequest.setFrameOrgCode("1001");
+
+        String jti = UuidUtils.fastSimpleUuid();
+        // TODO 验证是否需要重置密码：默认密码|密码过期
+        String pdt = String.valueOf(account.getIsDefaultPassword());
+        Integer timeOut = 86400;
+        // 颁发token
+        String appToken = platformJwtService.newFrameLoginJwtToken(JwtTypeEnums.APP_TOKEN, baseRequest, timeOut, jti, pdt);
+        return new LoginResponse(appToken, timeOut.longValue(), "PasswordLoginCmdExe");
     }
 
     @Override
     protected void validate(LoginRequest request) {
-        // TODO 验证入参参数
-        log.info("PasswordLoginCmdExe.validate|校验账号密码登录入参|{}", JSONObject.toJSONString(request));
+        // 验证入参参数
+        log.debug("PasswordLoginCmdExe.validate|校验账号密码登录入参|{}", JSONObject.toJSONString(request));
+        AssertCheck.notEmpty(request.getModel().getUsername(), BaseResultCode.PARAM_IS_EMPTY.code(),
+                MessageFormat.format(BaseResultCode.PARAM_IS_EMPTY.message(), "登录用户名"));
+        AssertCheck.notEmpty(request.getModel().getPassword(), BaseResultCode.PARAM_IS_EMPTY.code(),
+                MessageFormat.format(BaseResultCode.PARAM_IS_EMPTY.message(), "登录密码"));
     }
 }

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author stronger
- * @since 2025-09-13
+ * @since 2025-09-15
  */
 @Getter
 @Setter
@@ -58,9 +58,9 @@ public class SysLoginAccount implements Serializable {
     private LocalDateTime passwordSettingTime;
 
     /**
-     * 账户类型(0.手机号；1.邮箱；2.自定义)
+     * 账户类型(0.工号，1.手机号，2.邮箱，3.自定义)
      */
-    private Byte type;
+    private Boolean accountType;
 
     /**
      * 是否启用(is_enable:1.启用；0.禁用)
@@ -76,21 +76,6 @@ public class SysLoginAccount implements Serializable {
      * 最后更新时间
      */
     private LocalDateTime updateTime;
-
-    /**
-     * ext1
-     */
-    private String ext1;
-
-    /**
-     * ext2
-     */
-    private String ext2;
-
-    /**
-     * ext3
-     */
-    private Boolean ext3;
 
     /**
      * 删除标识is_deleted0.正常；1.已删除

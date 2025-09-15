@@ -19,13 +19,15 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
     private static final String MYSQL_PORT = "3306";
     private static final String MYSQL_USERNAME = "root";
     private static final String MYSQL_PASSWORD = "Cola@@2024.";
-    private static final String MYSQL_DATABASE = "ai";
+    private static final String MYSQL_DATABASE = "platform";
     private static final String AUTHOR = "stronger";
-    private static final String PACKAGE_NAME = "com.stronger.demo";
+    private static final String PACKAGE_NAME = "com.stronger.platform";
 
     public static void main(String[] args) {
-        List<String> tableList = List.of("sso_user");
-        generate(tableList);
+        String domain = "domain.user";
+        String infrastructure = "infrastructure.user";
+        List<String> tableList = List.of("sys_login_account");
+        generate(tableList, domain, infrastructure);
         System.out.println("生成完成!");
     }
 
@@ -40,13 +42,18 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
                     .schema(MYSQL_DATABASE)
                     .build();
 
-    public static void generate(List<String> tables) {
+    public static void generate(List<String> tables, String domain, String infrastructure) {
         AutoGenerator generator = new AutoGenerator(DATA_SOURCE_CONFIG);
         generator.strategy(
                 strategyConfig()
                         .addInclude(tables)
                         .entityBuilder()
                         .enableLombok()
+                        .serviceBuilder()
+                        .convertServiceFileName((tableName) -> tableName + "Gateway")
+                        .convertServiceImplFileName((tableName) -> tableName + "GatewayImpl")
+                        .mapperBuilder()
+                        .enableBaseResultMap()
                         .build());
         generator.global(
                 globalConfig()
@@ -55,6 +62,11 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
         generator.packageInfo(
                 packageConfig()
                         .parent(PACKAGE_NAME)
+                        .service(domain + ".gateway")
+                        .serviceImpl(infrastructure + ".gateway")
+                        .mapper(infrastructure + ".mapper")
+                        .entity(domain + ".entity")
+                        .xml(infrastructure + ".mapper")
                         .build());
         generator.execute();
     }
