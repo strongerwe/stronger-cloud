@@ -26,7 +26,6 @@ public class SysLoginAccountGatewayImpl extends ServiceImpl<SysLoginAccountMappe
         }
         return baseMapper.selectOne(lambdaQueryWrapper()
                 .eq(SysLoginAccount::getAccountName, accountName)
-                .eq(SysLoginAccount::getIsEnable, Boolean.TRUE)
                 .eq(SysLoginAccount::getIsDeleted, Boolean.FALSE));
     }
 }

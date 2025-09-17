@@ -46,7 +46,8 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
         }
         //从输入流中取出body串, 如果为空，直接返回
         StringBuilder sb = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(super.getInputStream(), StandardCharsets.UTF_8));
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(super.getInputStream(), StandardCharsets.UTF_8));
         String line;
         while ((line = reader.readLine()) != null) {
             sb.append(line);
@@ -56,8 +57,9 @@ public class BodyRequestWrapper extends HttpServletRequestWrapper {
             reqBodyStr = "{}";
         }
         //reqBodyStr转为Map对象
-        Map<String, Object> paramMap = new ObjectMapper().readValue(reqBodyStr, new TypeReference<HashMap<String, Object>>() {
-        });
+        Map<String, Object> paramMap = new ObjectMapper()
+                .readValue(reqBodyStr, new TypeReference<HashMap<String, Object>>() {
+                });
         //--------------- 这里结合geteway 封装的用户信息设置到请求参数中
         String frameUserId = super.getHeader(BaseRequestAttributeEnums.FRAME_USER_ID.getHeaderName());
         String frameUserName = super.getHeader(BaseRequestAttributeEnums.FRAME_USER_NAME.getHeaderName());

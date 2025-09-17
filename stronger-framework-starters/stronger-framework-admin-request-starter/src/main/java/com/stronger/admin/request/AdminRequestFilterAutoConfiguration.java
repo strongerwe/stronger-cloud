@@ -40,7 +40,8 @@ public class AdminRequestFilterAutoConfiguration {
     @ConditionalOnMissingBean
     public FilterRegistrationBean<AdminRequestParamsFilter> parmsFilterRegistration() {
         log.info(">>>>>>>> 配置启用网关请求参数回填BaseRequest功能!");
-        FilterRegistrationBean<AdminRequestParamsFilter> registration = new FilterRegistrationBean<AdminRequestParamsFilter>();
+        FilterRegistrationBean<AdminRequestParamsFilter> registration =
+                new FilterRegistrationBean<AdminRequestParamsFilter>();
         registration.setDispatcherTypes(DispatcherType.REQUEST);
         registration.setFilter(new AdminRequestParamsFilter());
         registration.addUrlPatterns("/*");

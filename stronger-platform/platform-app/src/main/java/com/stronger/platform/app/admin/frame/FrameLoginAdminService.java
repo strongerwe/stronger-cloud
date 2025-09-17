@@ -8,7 +8,7 @@ import com.stronger.commons.framework.PlatformFrameworkCore;
 import com.stronger.platform.client.admin.frame.request.LoginRequest;
 import com.stronger.platform.client.admin.frame.response.LoginResponse;
 import com.stronger.platform.client.admin.frame.response.LoginUserInfoResponse;
-import com.stronger.platform.client.constants.PlatformApiResultCode;
+import com.stronger.platform.client.constants.PlatformAdminResultCode;
 import com.stronger.platform.domain.user.entity.SysUserInfo;
 import com.stronger.platform.domain.user.gateway.SysUserInfoGateway;
 import jakarta.annotation.Resource;
@@ -38,7 +38,7 @@ public class FrameLoginAdminService {
 
     public RestResult<LoginUserInfoResponse> loginUserInfo(BaseRequest request) {
         SysUserInfo userInfo = sysUserInfoGateway.getByUserId(request.getFrameUserId());
-        AssertCheck.notNull(userInfo, PlatformApiResultCode.USER_NOT_EXIST);
+        AssertCheck.notNull(userInfo, PlatformAdminResultCode.USER_NOT_EXIST);
         LoginUserInfoResponse response = new LoginUserInfoResponse(
                 userInfo.getRealName(),
                 userInfo.getSex(),

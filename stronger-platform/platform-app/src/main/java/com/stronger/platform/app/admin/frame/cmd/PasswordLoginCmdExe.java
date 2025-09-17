@@ -15,10 +15,12 @@ import com.stronger.encrypt.pwd.EncryptType;
 import com.stronger.encrypt.pwd.PwdEncrypt;
 import com.stronger.platform.client.admin.frame.request.LoginRequest;
 import com.stronger.platform.client.admin.frame.response.LoginResponse;
-import com.stronger.platform.client.constants.PlatformApiResultCode;
+import com.stronger.platform.client.constants.PlatformAdminResultCode;
+import com.stronger.platform.domain.user.dto.LoginLockedDTO;
 import com.stronger.platform.domain.user.entity.SysLoginAccount;
 import com.stronger.platform.domain.user.entity.SysUserInfo;
 import com.stronger.platform.domain.user.gateway.SysLoginAccountGateway;
+import com.stronger.platform.domain.user.gateway.SysLoginLockedGateway;
 import com.stronger.platform.domain.user.gateway.SysUserInfoGateway;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,9 @@ public class PasswordLoginCmdExe extends AbstractCmdExe<LoginRequest, LoginRespo
     private SysLoginAccountGateway sysLoginAccountGateway;
 
     @Resource
+    private SysLoginLockedGateway sysLoginLockedGateway;
+
+    @Resource
     private SysUserInfoGateway sysUserInfoGateway;
 
     @Resource
@@ -57,25 +62,36 @@ public class PasswordLoginCmdExe extends AbstractCmdExe<LoginRequest, LoginRespo
     protected LoginResponse cmdExecute(LoginRequest request) {
         // 1. 根据用户名查询账号信息
         SysLoginAccount account = sysLoginAccountGateway.findUseLogin(request.getModel().getUsername());
-        AssertCheck.notNull(account, PlatformApiResultCode.USER_NOT_EXIST);
+        AssertCheck.notNull(account, PlatformAdminResultCode.USER_NOT_EXIST);
+        AssertCheck.isTrue(!account.getIsEnable(), PlatformAdminResultCode.USER_ACC_IS_DISABLE);
+        // 2.验证账号锁定状态
+        LoginLockedDTO loginLockedDTO = sysLoginLockedGateway.queryLockedStatus(account.getUserId());
+        if (loginLockedDTO.getLocked()) {
+            throw new BizRuntimeException(loginLockedDTO.getErrCode(), loginLockedDTO.getErrMsg());
+        }
         // 登录密码需要MD5加密  TODO 密码登录为了安全还需要结合前端进行加密操作
         String passwordCheck = MD5Utils.encrypt32(request.getModel().getPassword());
-        // 2. 验证登录密码（单向加密验证）
+        // 3. 验证登录密码（单向加密验证）
         if (!PwdEncrypt.matches(passwordCheck, account.getAccountPassword(), EncryptType.USER_PASSWORD)) {
-            throw new BizRuntimeException(PlatformApiResultCode.USER_ACCOUNT_PASSWORD);
+            // 记录密码错误次数，如若触发锁定返回对应错误提示
+            loginLockedDTO = sysLoginLockedGateway.loginFailed(account.getUserId());
+            if (loginLockedDTO.getLocked()) {
+                throw new BizRuntimeException(loginLockedDTO.getErrCode(), loginLockedDTO.getErrMsg());
+            }
+            throw new BizRuntimeException(PlatformAdminResultCode.USER_ACCOUNT_PASSWORD);
         }
-        // 3. 验证通过，查询用户信息
+        // 4. 登录成功 清除错误次数
+        sysLoginLockedGateway.cleanLocked(account.getUserId());
+        // 5. 验证通过，查询用户信息
         SysUserInfo userInfo = sysUserInfoGateway.getByUserId(account.getUserId());
-        AssertCheck.notNull(userInfo, PlatformApiResultCode.USER_NOT_EXIST);
+        AssertCheck.notNull(userInfo, PlatformAdminResultCode.USER_NOT_EXIST);
         BaseRequest baseRequest = new BaseRequest();
         baseRequest.setFrameUserId(account.getUserId());
         baseRequest.setFrameUserName(userInfo.getRealName());
-
         baseRequest.setFrameUserVersion(userInfo.getUserVersion());
         // TODO 对接客户端ID&机构Code
         baseRequest.setFrameClientId("client-id");
         baseRequest.setFrameOrgCode("1001");
-
         String jti = UuidUtils.fastSimpleUuid();
         // TODO 验证是否需要重置密码：默认密码|密码过期
         String pdt = String.valueOf(account.getIsDefaultPassword());

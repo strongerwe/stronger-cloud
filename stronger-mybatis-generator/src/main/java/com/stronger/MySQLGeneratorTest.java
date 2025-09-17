@@ -26,7 +26,7 @@ public class MySQLGeneratorTest extends BaseGeneratorTest {
     public static void main(String[] args) {
         String domain = "domain.user";
         String infrastructure = "infrastructure.user";
-        List<String> tableList = List.of("sys_login_account");
+        List<String> tableList = List.of("sys_login_locked");
         generate(tableList, domain, infrastructure);
         System.out.println("生成完成!");
     }

@@ -10,4 +10,9 @@ package com.stronger.platform.client.constants;
  * @desc do what?
  */
 public interface PlatformConstants {
+
+    /**
+     * 登录锁定状态缓存key前缀：需要匹配uuid
+     */
+    String LOGIN_LOCKED_REDIS_KEY = "platform:login:locked:";
 }
